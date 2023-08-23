@@ -2,93 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import { PencilSquareIcon, TrashIcon, PencilIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
-
-
+import Modal from './Modal'
 
 export default function MyContacts() {
   const navigate = useNavigate();
-  // const [show, setShow] = useState(AuthService.isAuthenticated())
-  // if (show === false) {
-  //   router.push('/')
-  // }
-
-
-  const dummyData = {
-    name: "Hanzala Khan",
-    email: "han@gmail.com",
-    phone: "+91 49652845732",
-    about: "Lorem ipsum dolor sit amet consectetur Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur",
-    skills: ["Next Js", "Typescript"],
-    professionalDetails: "This are the professional details shown to users in the app.",
-    certification: { certificationName: "Python", certificationInstitute: "Coding Ninjas" },
-    experiences: [{
-      fromYearToYear: "7 Years (2014-2021) Full-time",
-      organizationWithRole: "Oruphones -- Full Stack Developer"
-    },
-    {
-      fromYearToYear: "7 Years (2014-2021) Full-time",
-      organizationWithRole: "Oruphones -- Full Stack Developer"
-    }],
-    higherEducation: {
-      higherEducationInstitute: "IIT HYDERABAD",
-      fromYearToYear: "(2010-2914)",
-      course: "Btech",
-      aboutEducation: "Lorem ipsum dolor sit amet consectetur. Erat auctor a aliquam vel congue luctus. Leo diam cras neque mauris ac arcu elit ipsum dolor sit amet consectetur."
-    },
-    myConnections: [{
-      connectionName: "Rahul",
-      connectionPosition: "App Developer @ Mobilicis"
-    },
-    {
-      connectionName: "Cristian",
-      connectionPosition: "Software Engineer @ Mindtrot"
-    },
-    {
-      connectionName: "Andrew",
-      connectionPosition: "App Developer @ BlackCoffer"
-    },
-    {
-      connectionName: "Sophia",
-      connectionPosition: "UI/UX Designer @ Creatify"
-    },
-    {
-      connectionName: "Alex",
-      connectionPosition: "Backend Developer @ Datawise"
-    },
-    {
-      connectionName: "Emma",
-      connectionPosition: "Data Scientist @ Analytica"
-    },
-    {
-      connectionName: "Michael",
-      connectionPosition: "Cloud Engineer @ CloudSafe"
-    },
-    {
-      connectionName: "Isabella",
-      connectionPosition: "DevOps Engineer @ Pipeline"
-    },
-    {
-      connectionName: "Daniel",
-      connectionPosition: "QA Tester @ BugHunter"
-    },
-    {
-      connectionName: "Olivia",
-      connectionPosition: "Product Manager @ Productify"
-    }],
-    suggestionConnectins: [
-      {
-        connectionName: "David",
-        connectionPosition: "Cybersecurity Expert @ SecureNet"
-      },
-      {
-        connectionName: "Mia",
-        connectionPosition: "Frontend Developer @ Webify"
-      },
-      {
-        connectionName: "Samuel",
-        connectionPosition: "Database Administrator @ DBMasters"
-      }]
-  }
 
   const dummyContacts = [
     {
@@ -228,13 +145,10 @@ export default function MyContacts() {
     }
   ];
 
-
-
-
-  const [myProfileData, setMyProfileData] = useState(dummyData)
-  const [updateMyprofileData, setUpdateMyProfileData] = useState();
-
   const [contacts, setContacts] = useState(dummyContacts);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalPassingType, setModalPassingType] = useState(null);
+  const [modalPassingContact, setModalPassingContact] = useState(false);
 
 
   // useEffect(() => {
@@ -254,40 +168,24 @@ export default function MyContacts() {
   // }, [updateMyprofileData]);
 
 
-  const handleRemoveConnection = (myConnectionIndex) => {
-    const afterRemovingConnection = myProfileData.myConnections.filter((connection, index) => index !== myConnectionIndex);
-    setUpdateMyProfileData({ ...myProfileData, myConnections: afterRemovingConnection })
+
+  const handleCreateNewContact = () => {
+    setModalPassingType("createNewContact");
+    setIsModalVisible(true);
   }
-
-
-  const handleToConnect = (suggestionConnectionsIndex) => {
-    // Get connection object from suggestionConnections
-    const connectionToAdd = myProfileData.suggestionConnectins[suggestionConnectionsIndex];
-
-    //  Remove the connection obj from suggestionConnections
-    const updatedSuggestionConnections = myProfileData.suggestionConnectins.filter((_, index) => index !== suggestionConnectionsIndex);
-
-    // Append the Remove connection object to myConnections
-    const updatedMyConnections = [...myProfileData.myConnections, connectionToAdd];
-
-    // Update state with the new added and Remove Connection
-    setUpdateMyProfileData(prevState => ({
-      ...prevState,
-      suggestionConnectins: updatedSuggestionConnections,
-      myConnections: updatedMyConnections
-    }));
-  }
-
 
   const handleViewContact = (contact) => {
 
   }
   const handleEditContact = (contact) => {
-
+    setModalPassingType("editContact");
+    setModalPassingContact(contact);
+    setIsModalVisible(true);
   }
+
   const handleDeleteContact = (contact) => {
     const afterDeletingContact = contacts.filter(item => item.mobileNumber !== contact.mobileNumber);
-    setContacts(afterDeletingContact)
+    setContacts(afterDeletingContact);
   }
 
   return (
@@ -303,8 +201,22 @@ export default function MyContacts() {
       <div className="w-full flex flex-wrap gap-6    md:p-4 p-3 justify-center md:justify-start ">
         {/* CONNECTION CARD1 */}
         <div className='w-full flex'>
-          <button className=' bg-[#BAB6EB]   rounded-[64.587px] px-2 py-1 h-min text-xs font-medium'>Create New Contact</button>
+          <button className=' bg-[#BAB6EB]   rounded-[64.587px] px-2 py-1 h-min text-xs font-medium'
+            onClick={() => handleCreateNewContact()} >Create New Contact</button>
         </div>
+        <Modal
+          title={modalPassingType === "createNewContact" ? "Create New Contact" : "Edit Contact"}
+          openModal={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          type={modalPassingType}
+          contacts={contacts}
+          setContacts={setContacts}
+          contact={modalPassingContact}
+          setModalPassingType={setModalPassingType}
+          setModalPassingContact={setModalPassingContact}
+        />
+
         {
           contacts.map((contact, index) => {
             return (
@@ -313,9 +225,6 @@ export default function MyContacts() {
                   <h1>{`${contact.firstName} ${contact.lastName}`}</h1>
                   <p className="text-xs text-slate-500">{contact.status}</p>
                   <p className="text-xs text-slate-500"><b>Mobile.</b> {contact.mobileNumber}</p>
-                  {/* <button className=' bg-[#BAB6EB]   rounded-[64.587px] px-4 py-1 h-min text-xs font-medium' onClick={() => handleRemoveConnection(index)}>
-                    Remove Connection
-                  </button> */}
                   {/* VIEW DETAILS BUTTON */}
                   <div className='flex gap-3  '>
                     <div className=' flex bg-[#BAB6EB] rounded-[50%] w-6 h-6 cursor-pointer' onClick={() => handleViewContact(contact)} >
@@ -333,43 +242,13 @@ export default function MyContacts() {
 
                 </div>
                 <div className="w-[35%] m-auto">
+                  {/* <img src={contacts.profilePhotoUrl} alt="" className="w-full h-full bg-contain " /> */}
                   <img src="/assets/profilePhoto.svg" alt="" className="w-full h-full bg-contain " />
                 </div>
               </div>
             )
           })
         }
-      </div>
-
-
-
-
-
-      {/* CARD CONTAINER 2 */}
-      <div className="w-full flex">
-        <h1 className="  mx-auto md:ml-5 mt-10 text-xl ">People You can Also Connect</h1>
-      </div>
-      <div className="w-full flex flex-wrap gap-6    md:p-4 p-3 justify-center md:justify-start ">
-
-
-        {
-          myProfileData.suggestionConnectins.map((connection, index) => {
-            return (
-              <div className="flex w-[250px] h-[119px] rounded-md shadow-sm border border-[#CECECE] text-sm " key={index}>
-                <div className="w-[65%] flex flex-col gap-3 p-2 m-auto">
-                  <h1>{connection.connectionName}</h1>
-                  <p className="text-xs text-slate-500">{connection.connectionPosition}</p>
-                  <button className=' bg-[#BAB6EB]   rounded-[64.587px] px-2 py-1 h-min text-xs font-medium' onClick={() => handleToConnect(index)}>Connect</button>
-                </div>
-                <div className="w-[35%] m-auto">
-                  <img src="/assets/profilePhoto.svg" alt="" className="w-full h-full bg-contain " />
-                </div>
-              </div>
-            )
-          })
-        }
-
-
       </div>
 
     </main>
