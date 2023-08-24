@@ -1,12 +1,10 @@
-"use client"
-
-
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Select } from 'antd';
+import { Contact } from '../interfaces/contact';
+import { Contacts } from '../interfaces/contact';
 
 
-
-const App = (props) => {
+const App = (props: any) => {
 
 
   const { title, type, contacts, setContacts, openModal, onClose, setIsModalVisible, contact, setModalPassingType, setModalPassingContact } = props;
@@ -14,14 +12,14 @@ const App = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(openModal);
   const [form] = Form.useForm();
 
-  const blankContactField = {
+  const blankContactField: Contact = {
     firstName: "",
     lastName: "",
     mobileNumber: "",
     email: "",
     relation: "",
     status: "Active",
-    profilePhoto: ""
+    profilePhotoUrl: ""
   }
 
 
@@ -40,24 +38,24 @@ const App = (props) => {
 
 
   // FORM SUBMITION FOR CREATE AND EDIT CONTACT
-  const onFinish = (values) => {
+  const onFinish = (values: Contact) => {
 
     if (type === "createNewContact") {
-      let newContact = { ...values, profilePhoto: "" };
+      let newContact = { ...values, profilePhotoUrl: "" };
       setContacts([...contacts, newContact]);
 
     }
     if (type === "editContact") {
-      let contactToEditIndex = contacts.findIndex(item => item.mobileNumber === contact.mobileNumber);
-      
+      let contactToEditIndex = contacts.findIndex((item: Contact) => item.mobileNumber === contact.mobileNumber);
+
       // IF CONTACT IS FOUND IN THE ARRAY
       if (contactToEditIndex !== -1) {
-          contacts[contactToEditIndex] = { ...contacts[contactToEditIndex], ...values, profilePhoto: "" };
+        contacts[contactToEditIndex] = { ...contacts[contactToEditIndex], ...values, profilePhotoUrl: "" };
       }
 
       setContacts(contacts);
-  }
-  
+    }
+
 
     form.resetFields();
     setIsModalVisible(false);
@@ -150,7 +148,7 @@ const App = (props) => {
                 </Select>
               </Form.Item>
 
-              {/* <Form.Item name="profilePhoto">
+              {/* <Form.Item name="profilePhotoUrl">
           <Input type="file" placeholder="Profile Photo" />
         </Form.Item> */}
             </>

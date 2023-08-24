@@ -3,11 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 import { PencilSquareIcon, TrashIcon, PencilIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import Modal from './Modal'
-
+import { Contact } from '../interfaces/contact';
+import { Contacts } from '../interfaces/contact';
 export default function MyContacts() {
+
+
+
+
   const navigate = useNavigate();
 
-  const dummyContacts = [
+  const dummyContacts: Contacts = [
     {
       firstName: "Rahul",
       lastName: "Kumar",
@@ -145,10 +150,14 @@ export default function MyContacts() {
     }
   ];
 
+
+  type ModalPassingType = string | null
+  type ModalPassingContact = Contact | false
+
   const [contacts, setContacts] = useState(dummyContacts);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalPassingType, setModalPassingType] = useState(null);
-  const [modalPassingContact, setModalPassingContact] = useState(false);
+  const [modalPassingType, setModalPassingType] = useState<ModalPassingType>(null);
+  const [modalPassingContact, setModalPassingContact] = useState<ModalPassingContact>(false);
 
 
   // useEffect(() => {
@@ -174,16 +183,16 @@ export default function MyContacts() {
     setIsModalVisible(true);
   }
 
-  const handleViewContact = (contact) => {
-
+  const handleViewContact = (contact: any | Contact) => {
+    navigate('/ViewContactDetails', { state: contact })
   }
-  const handleEditContact = (contact) => {
+  const handleEditContact = (contact: Contact) => {
     setModalPassingType("editContact");
     setModalPassingContact(contact);
     setIsModalVisible(true);
   }
 
-  const handleDeleteContact = (contact) => {
+  const handleDeleteContact = (contact: Contact) => {
     const afterDeletingContact = contacts.filter(item => item.mobileNumber !== contact.mobileNumber);
     setContacts(afterDeletingContact);
   }

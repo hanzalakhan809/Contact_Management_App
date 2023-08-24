@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import SideMenu from './components/SideMenu';
 import MyContacts from './components/MyContacts';
 import Charts from './components/Charts'
+import ViewContactDetails from './components/ViewContactDetails';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
      <Routes>
       <Route path="/" element={<MyContacts/>} />
       <Route path="/ChartsAndMaps" element={<Charts/>} />
+      <Route path="/ViewContactDetails" element={<ViewContactDetails/>} />
     </Routes>
     </div>
   </Router>

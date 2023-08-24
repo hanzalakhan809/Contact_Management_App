@@ -1,7 +1,7 @@
 
 "use client"
 import React, { useState } from 'react'
-import AuthService from '../services/authServices'
+import AuthService from '../services/chartServices'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form';
 

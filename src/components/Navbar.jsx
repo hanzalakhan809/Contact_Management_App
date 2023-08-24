@@ -22,7 +22,7 @@ export default function Navbar() {
       <div>
         <div className="flex gap-3 md:hidden   " onClick={() => setShowMobileMenu(!mobileMenu)}  >
           <img src='/assets/menu.svg' alt="" className='w-6 ' />
-          <img src="/assets/logo.svg" alt="" className={`w-[59px] ${mobileMenu ? "hidden" : ""} `} />
+          <img src="/assets/Taiyo-logo.png" alt="" className={`w-[59px] ${mobileMenu ? "hidden" : ""} `} />
         </div>
 
 
