@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-
-import { PencilSquareIcon, TrashIcon, PencilIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
+import {  message, Popconfirm } from 'antd';
+import { PencilSquareIcon, TrashIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import Modal from './Modal'
 import { Contact } from '../interfaces/contact';
 import { Contacts } from '../interfaces/contact';
+
+
+
 export default function MyContacts() {
-
-
-
 
   const navigate = useNavigate();
 
+  // HERE I USED DUMMY DATA TO BECAUSE OF BACKEND API WAS NOT CREATED
+  // IF I HAVE API FOR TO GET DATA THEN I HAVE USED THAT DATA GETTING FROM API INSTEAD OF DUMMY DATA
   const dummyContacts: Contacts = [
     {
       firstName: "Rahul",
@@ -150,7 +152,7 @@ export default function MyContacts() {
     }
   ];
 
-
+  // LOCAL TYPES
   type ModalPassingType = string | null
   type ModalPassingContact = Contact | false
 
@@ -160,24 +162,7 @@ export default function MyContacts() {
   const [modalPassingContact, setModalPassingContact] = useState<ModalPassingContact>(false);
 
 
-  // useEffect(() => {
-  //   AuthService.getMyProfileData().then((data) => {
-  //     setMyProfileData(data)
-  //   })
-  // }, [])
-
-
-  // useEffect(() => {
-  //   if (!updateMyprofileData) return;
-  //   setMyProfileData(updateMyprofileData);
-  //   AuthService.updateUserProfile(updateMyprofileData).then((response) => {
-  //     console.log(response);
-  //   });
-
-  // }, [updateMyprofileData]);
-
-
-
+  // BUTTONS ON CARD
   const handleCreateNewContact = () => {
     setModalPassingType("createNewContact");
     setIsModalVisible(true);
@@ -197,8 +182,20 @@ export default function MyContacts() {
     setContacts(afterDeletingContact);
   }
 
+
+
+  // POPCONFIRM HANDLE ANTD
+  const confirm = (contact: Contact) => {
+    handleDeleteContact(contact);
+    message.success('Contact Deleted Successfully');
+  };
+
+  const cancel = () => {
+  };
+
+
   return (
-    // show &&
+
     <main className='w-full min-h-screen bg-[#f8fafe]'>
 
       {/* CARD HEAD COVER */}
@@ -207,12 +204,13 @@ export default function MyContacts() {
       </div>
 
       {/* CARD CONTAINER 1 */}
-      <div className="w-full flex flex-wrap gap-6    md:p-4 p-3 justify-center md:justify-start ">
+      <div className="w-full flex flex-wrap gap-6 md:p-4 p-3 justify-center md:justify-start ">
         {/* CONNECTION CARD1 */}
         <div className='w-full flex'>
           <button className=' bg-[#BAB6EB]   rounded-[64.587px] px-2 py-1 h-min text-xs font-medium'
             onClick={() => handleCreateNewContact()} >Create New Contact</button>
         </div>
+
         <Modal
           title={modalPassingType === "createNewContact" ? "Create New Contact" : "Edit Contact"}
           openModal={isModalVisible}
@@ -244,9 +242,19 @@ export default function MyContacts() {
                       <PencilSquareIcon className='w-4 m-auto text-black' />
                     </div>
                     {/* DELETE BUTTON */}
-                    <div className=' flex bg-[#EBB6BA] rounded-[50%] w-6 h-6 cursor-pointer' onClick={() => handleDeleteContact(contact)} >
-                      <TrashIcon className='w-4 text-white m-auto' />
-                    </div>
+
+                    <Popconfirm
+                      title="Delete the Contact"
+                      description="Are you sure to delete this contact?"
+                      onConfirm={() => confirm(contact)}
+                      onCancel={() => cancel}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <div className=' flex bg-[#EBB6BA] rounded-[50%] w-6 h-6 cursor-pointer' >
+                        <TrashIcon className='w-4 text-white m-auto' />
+                      </div>
+                    </Popconfirm>
                   </div>
 
                 </div>

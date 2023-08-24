@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Input, Select } from 'antd';
+import { Modal, Form, Input, Select, message } from 'antd';
 import { Contact } from '../interfaces/contact';
-import { Contacts } from '../interfaces/contact';
 
 
 const App = (props: any) => {
-
-
   const { title, type, contacts, setContacts, openModal, onClose, setIsModalVisible, contact, setModalPassingType, setModalPassingContact } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(openModal);
@@ -45,6 +42,8 @@ const App = (props: any) => {
       setContacts([...contacts, newContact]);
 
     }
+
+
     if (type === "editContact") {
       let contactToEditIndex = contacts.findIndex((item: Contact) => item.mobileNumber === contact.mobileNumber);
 
@@ -52,15 +51,14 @@ const App = (props: any) => {
       if (contactToEditIndex !== -1) {
         contacts[contactToEditIndex] = { ...contacts[contactToEditIndex], ...values, profilePhotoUrl: "" };
       }
-
       setContacts(contacts);
     }
-
-
     form.resetFields();
     setIsModalVisible(false);
     setModalPassingType(false);
     setModalPassingContact(false);
+    type === "createNewContact"?  message.success("Contact created Successfully"): message.success("Contact edited Successfully")
+
   }
 
 
@@ -78,7 +76,6 @@ const App = (props: any) => {
 
   return (
     <>
-
       <Modal title={title} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Form
           form={form}
@@ -147,10 +144,6 @@ const App = (props: any) => {
                   <Select.Option value="Inactive">Inactive</Select.Option>
                 </Select>
               </Form.Item>
-
-              {/* <Form.Item name="profilePhotoUrl">
-          <Input type="file" placeholder="Profile Photo" />
-        </Form.Item> */}
             </>
           )}
 

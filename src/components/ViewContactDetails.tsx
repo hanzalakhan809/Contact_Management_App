@@ -1,23 +1,15 @@
-import React, { useState, useEffect } from 'react'
-// import AuthService from '../services/authServices'
-// import { useRouter } from 'next/navigation'
-import Modal from './Modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Contact } from '../interfaces/contact';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 
 export default function ViewContactDetails() {
+
   const location = useLocation();
   const navigate = useNavigate()
-  // const [show, setShow] = useState(AuthService.isAuthenticated())
-  // if (show === false) {
-  //   router.push('/')
-  // }
   const contact: Contact = location.state;
 
 
   return (
-    // show &&
     <main className='w-full  bg-[#f8fafe] h-screen'>
       {/* CARD HEAD COVER */}
       <div className='flex h-[71px] md:h-[169px] mx-4 w-auto bg-[#1E2875] rounded-[2.78px]  md:rounded-lg md:p-4 p-3 justify-between items-start'>

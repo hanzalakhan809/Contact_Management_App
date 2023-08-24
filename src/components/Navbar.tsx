@@ -1,14 +1,8 @@
-
-// import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-// import Authservice from '../services/authServices'
-// import { usePathname } from "next/navigation"
-import {useLocation,useNavigate} from 'react-router-dom';
+import { useState } from "react"
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
 
-  // const router = useRouter();
-  // const path = usePathname();
   const [mobileMenu, setShowMobileMenu] = useState(false)
 
 
@@ -29,7 +23,7 @@ export default function Navbar() {
 
         {/* FOR MEDIUM DEVICES ABOVE MEDIUM DEVICES*/}
         <div className=" hidden md:flex w-[183px] h-[47px] mx-auto rounded-[8.889px] shadow-sm border-2 ml-6 ">
-          <div className="m-auto h-auto text-[24px] font-medium">Dashboard</div>
+          <div className="m-auto h-auto text-[24px] font-medium">{"Dashboard"}</div>
         </div>
       </div>
 
@@ -53,11 +47,9 @@ export default function Navbar() {
         <span
           className={`${path.pathname === '/ChartsAndMaps' ? "border-b-2 cursor-pointer" : ""}`}
           onClick={() => { navigate('/ChartsAndMaps') }}>
-          Charts and Maps
+          {"Charts and Maps"}
         </span>
-        {/* <span className="cursor-pointer" onClick={() => { Authservice.logoutUser(); navigate('/'); }}>
-          Logout
-        </span> */}
+
       </div>
 
 
@@ -72,8 +64,8 @@ export default function Navbar() {
 
           <div className="flex gap-3">
             <div className="md:flex md:flex-col md:m-auto md:ml-3   ">
-              <p className="text-sm">Welocome back</p>
-              <p className=" text-4   w-full font-medium">Hanzala</p>
+              <p className="text-sm">{"Welocome back"}</p>
+              <p className=" text-4   w-full font-medium">{"Hanzala"}</p>
             </div>
             <img src="/assets/arrowDown.svg" alt="" className="w-6 m-auto mr-2 ml-3" />
           </div>

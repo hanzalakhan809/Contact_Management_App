@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react';
 
 
 export default function LineChartComponent() {
-  
-  const [data,setData]= useState([]);
-  const topData = [...data].sort((a, b) => b.cases - a.cases).slice(0, 10);
-  
+
+  const [data, setData] = useState([]);
+  const topData = [...data].sort((a: any, b: any) => b.cases - a.cases).slice(0, 10);
+
   useEffect(() => {
-chartServices.getCountrySpecificData().then((response)=>[
-setData(response)
-])
+    chartServices.getCountrySpecificData().then((response) => [
+      setData(response)
+    ])
   }, [])
 
   return (
